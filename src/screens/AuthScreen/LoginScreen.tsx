@@ -46,7 +46,7 @@ export default function LoginScreen({ navigation }) {
     try {
       db.transaction((tx) => {
         tx.executeSql(
-          "SELECT LoginName, Password FROM Users",
+          "SELECT LoginName, Password,Name,LastName FROM Users",
           [],
           (tx, results) => {
             setLoginNameArray(results.rows._array);
@@ -68,7 +68,7 @@ export default function LoginScreen({ navigation }) {
       if (loginName === item.LoginName) {
         check = true;
         if (password === item.Password) {
-          navigation.navigate("Home");
+          navigation.navigate("Home", { params: item });
           setLoading(false);
         } else {
           alert("Password is incorrect");
@@ -90,37 +90,39 @@ export default function LoginScreen({ navigation }) {
           // backgroundColor: '#FFFFFF',
         }}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            flex: 1,
-            alignItems: "flex-end",
-            justifyContent: "flex-end",
-            padding: 20,
-          }}
-        >
-          <Image
+        {loginNameArray.length < 1 && (
+          <View
             style={{
-              width: 50,
-              height: 30,
-              resizeMode: "stretch",
-              alignSelf: "flex-end",
+              flexDirection: "row",
+              flex: 1,
+              alignItems: "flex-end",
               justifyContent: "flex-end",
+              padding: 20,
             }}
-            source={require("../../../assets/Image/Login/germany.png")}
-          />
-          <Image
-            style={{
-              width: 50,
-              height: 30,
-              resizeMode: "stretch",
-              alignSelf: "flex-end",
-              justifyContent: "flex-end",
-              marginLeft: 12,
-            }}
-            source={require("../../../assets/Image/Login/british.png")}
-          />
-        </View>
+          >
+            <Image
+              style={{
+                width: 50,
+                height: 30,
+                resizeMode: "stretch",
+                alignSelf: "flex-end",
+                justifyContent: "flex-end",
+              }}
+              source={require("../../../assets/Image/Login/germany.png")}
+            />
+            <Image
+              style={{
+                width: 50,
+                height: 30,
+                resizeMode: "stretch",
+                alignSelf: "flex-end",
+                justifyContent: "flex-end",
+                marginLeft: 12,
+              }}
+              source={require("../../../assets/Image/Login/british.png")}
+            />
+          </View>
+        )}
       </View>
 
       <View
@@ -232,32 +234,33 @@ export default function LoginScreen({ navigation }) {
               )}
             </View>
           </TouchableOpacity>
-
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "row",
-              marginTop: 20,
-            }}
-          >
-            <Text style={[globalstyles.darkgrey, globalstyles.font15]}>
-              If you have no account?
-            </Text>
-
-            <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-              <Text
-                style={[
-                  globalstyles.bluetext,
-                  globalstyles.font15,
-                  { fontWeight: "600", textDecorationLine: "underline" },
-                ]}
-              >
-                {" "}
-                Sign Up
+          {loginNameArray.length < 1 && (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "row",
+                marginTop: 20,
+              }}
+            >
+              <Text style={[globalstyles.darkgrey, globalstyles.font15]}>
+                If you have no account?
               </Text>
-            </TouchableOpacity>
-          </View>
+
+              <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+                <Text
+                  style={[
+                    globalstyles.bluetext,
+                    globalstyles.font15,
+                    { fontWeight: "600", textDecorationLine: "underline" },
+                  ]}
+                >
+                  {" "}
+                  Sign Up
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </View>
     </View>

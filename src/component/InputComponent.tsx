@@ -51,7 +51,7 @@ export default function InputComponent({
           // }}
 
           onChangeText={onChangeText}
-          placeholder={placeholder}
+          // placeholder={placeholder}
           placeholderTextColor={"#B2B2B2"}
           keyboardType={keyboardType}
           value={value}
